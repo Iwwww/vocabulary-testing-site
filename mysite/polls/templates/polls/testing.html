@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Display Word</title>
+    <link href="css/style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <h1>{{ word }}</h1>
+    <form action="{% url 'polls:process_response' %}" method="post">
+      {% csrf_token %}
+      <button type="submit" name="response" value="know">I know</button>
+      <button type="submit" name="response" value="dont_know">
+        I don't know
+      </button>
+    </form>
+    <p>Word score price: {{ word.rank }}</p>
+    <p>Your score: {{ request.session.rank }}</p>
+  </body>
+</html>
