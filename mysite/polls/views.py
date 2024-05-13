@@ -10,8 +10,8 @@ from .models import Language, Word
 
 
 def index(request):
-    language_list: List = Language.objects.all()
-    select_language(request, language_list[0])  # language_list is not empty
+    language_list= Language.objects.values_list('id', 'language')
+    select_language(request, language_list[0][0])  # language_list is not empty
 
     context = {"language_list": language_list}
     return render(request, "polls/index.html", context)
