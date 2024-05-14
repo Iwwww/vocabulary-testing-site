@@ -15,5 +15,7 @@ class Word(models.Model):
     meaning = models.CharField(max_length=300)
     language = models.ForeignKey(Language, on_delete=models.PROTECT)
 
+    MAX_RANK = 300_000
+
     def __str__(self):
         return str(self.word)

@@ -1,21 +1,29 @@
-<!doctype html>
-<html lang="ru">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Display Word</title>
-    <link href="css/style.css" rel="stylesheet" />
-  </head>
-  <body>
-    <h1>{{ word }}</h1>
-    <form action="{% url 'polls:process_response' %}" method="post">
-      {% csrf_token %}
-      <button type="submit" name="response" value="know">I know</button>
-      <button type="submit" name="response" value="dont_know">
-        I don't know
-      </button>
-    </form>
+{% extends 'base.html' %} {% load static tailwind_tags %} {% block content %}
+<div class="text-center space-y-4 my-5">
+  <h1 class="text-2xl font-bold">{{ word }}</h1>
+  <form action="{% url 'polls:process_response' %}" method="post">
+    {% csrf_token %}
+    <button
+      type="submit"
+      name="response"
+      value="know"
+      class="inline-block bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-75 active:bg-green-700"
+    >
+      I know
+    </button>
+    <button
+      type="submit"
+      name="response"
+      value="dont_know"
+      class="inline-block bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-75 active:bg-red-700"
+    >
+      I don't know
+    </button>
+  </form>
+  <div>
     <p>Word score price: {{ word.rank }}</p>
     <p>Your score: {{ request.session.rank }}</p>
-  </body>
-</html>
+    <p>Word count tested: {{ request.session.word_count_tested }}</p>
+  </div>
+</div>
+{% endblock content %}
