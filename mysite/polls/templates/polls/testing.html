@@ -21,9 +21,7 @@
     </button>
   </form>
   <div>
-    <p>Word score price: {{ word.rank }}</p>
-    <p>Your score: {{ request.session.rank }}</p>
-    <p>Word count tested: {{ request.session.word_count_tested }}</p>
+    <p>Word count tested: {{ request.session.word_tested_count }}</p>
   </div>
 </div>
 {% endblock content %}

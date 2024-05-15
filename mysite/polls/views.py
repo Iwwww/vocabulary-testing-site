@@ -1,5 +1,6 @@
 from typing import List
-from random import randint
+from random import uniform
+import numpy as np
 
 from django.db.models import F, Q, Func
 from django.db.models.functions import Abs
@@ -40,32 +41,31 @@ def word(request, word_id):
 
 
 def testing(request):
-    # if "rank" not in request.session:
-    #     request.session["rank"] = 100
-    #
-    # if "word_count_tested" not in request.session:
-    #     request.session["word_count_tested"] = 0
-    #
-    # if request.session["word_count_tested"] >= 20:
-    #     return HttpResponseRedirect(reverse("polls:result"))
+    if "selected_words" in request.session and "word_tested_count" in request.session:
+        request.session["word_tested_count"] += 1
+        if request.session["word_tested_count"] >= len(
+            request.session["selected_words"]
+        ):
+            del request.session["word_tested_count"]
+            return HttpResponseRedirect(reverse("polls:result"))
+    else:
+        # Initilize "selected_words"
+        words_count = 20
+        selected_option = request.POST.get("test_length")
+        if selected_option == "long":
+            words_count = 80
+        elif selected_option == "medium":
+            words_count = 40
 
-    # target_rank = request.session["rank"]
-    # word_count_tested: int = request.session["word_count_tested"]
-    # tolerance = 50 * word_count_tested * 2**word_count_tested
-    # tolerance = 500
-    # words_query = Word.objects.filter(
-    #     Q(rank__gte=target_rank) & Q(rank__lte=target_rank + tolerance)
-    # )
-    # word_query = (
-    #     Word.objects.filter(rank__isnull=False)
-    #     .annotate(diff=Abs(F("rank") - target_rank))
-    #     .order_by("diff")
-    # )
-    # word: str = word_query.first()
-    # print("WORD:", word)
-    # request.session["last_rank"] = word.rank
+        request.session["selected_words"] = select_words(
+            request.session["language_id"], words_count
+        )
 
-    word: str = "hello"
+        request.session["word_tested_count"] = 0
+
+    word_id = request.session["selected_words"][request.session["word_tested_count"]]
+
+    word: Word = Word.objects.get(id=word_id)
     context = {"word": word}
     return render(request, "polls/testing.html", context)
 
@@ -74,7 +74,7 @@ def process_response(request):
     if request.method == "POST":
         response = request.POST.get("response")
         if response in ["know", "dont_know"]:
-            request.session["word_count_tested"] += 1
+            # request.session["word_count_tested"] += 1
             if response == "know":
                 pass
                 # request.session["rank"] += request.session["last_rank"] + randint(
@@ -105,3 +105,24 @@ def result(request):
 def about(request):
     context = {"current_page": "about"}
     return render(request, "polls/about.html", context)
+
+
+def select_words(language_id: int, words_count: int) -> List[Word]:
+    # Получаем все слова из базы данных
+    all_words = Word.objects.filter(language_id=language_id, pos="s").values_list(
+        "id", flat=True
+    )
+
+    # Генерация случайных смещений для выбора индексов
+    random_offsets = [uniform(-50, 50) for _ in range(words_count)]
+
+    # Равномерное распределение слов по сложности с учетом случайных смещений
+    selected_indices = (
+        np.linspace(0, len(all_words) - 1, words_count, dtype=int) + random_offsets
+    )
+    selected_indices = np.clip(selected_indices, 0, len(all_words) - 1).astype(int)
+
+    # Выбор случайных слов из базы данных на основе случайных индексов
+    selected_words = [all_words[int(index)] for index in selected_indices]
+
+    return selected_words
