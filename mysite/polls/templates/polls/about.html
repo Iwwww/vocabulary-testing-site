@@ -1,59 +1,71 @@
 {% extends 'base.html' %} {% load static tailwind_tags %} {% block content %}
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+></script>
 <div class="mx-auto bg-gray-200 p-4 space-y-5 max-w-prose">
   <h1 class="text-2xl text-center my-5">
-    This site is for testing your vocabular using Item Response Theory
+    О методах тестирования на сайте Вокабулярий
   </h1>
   <p>
-    Here you could see description of the mechanism of testing vocabular using
-    item response theory.
+    Одним из основных методов оценки словарного запаса является использование
+    тестов, основанных на Современной теории тестов (Item Response Theory, IRT).
+    Эти методы позволяют учитывать не только количество известных слов, но и их
+    сложность. Модель Раша (Rasch Model) и его вариации (например, 1PL, 2PL,
+    3PL) широко применяются для оценки словарного запаса.
   </p>
+
   <p>
-    Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit enim
-    labore culpa sint ad nisi Lorem pariatur mollit ex esse exercitation amet.
-    Nisi anim cupidatat excepteur officia. Reprehenderit nostrud nostrud ipsum
-    Lorem est aliquip amet voluptate voluptate dolor minim nulla est proident.
-    Nostrud officia pariatur ut officia. Sit irure elit esse ea nulla sunt ex
-    occaecat reprehenderit commodo officia dolor Lorem duis laboris cupidatat
-    officia voluptate. Culpa proident adipisicing id nulla nisi laboris ex in
-    Lorem sunt duis officia eiusmod. Aliqua reprehenderit commodo ex non
-    excepteur duis sunt velit enim. Voluptate laboris sint cupidatat ullamco ut
-    ea consectetur et est culpa et culpa duis.
+    В модели Раша (1PL) вероятность правильного ответа на слово зависит от
+    уровня способности испытуемого и сложности слова, представленной параметром
+    \( b_i \):
   </p>
+  \[ P_i(\theta) = \frac{1}{1 + e^{-(\theta - b_i)}} \]
+  <ul>
+    Где:
+    <li>
+      - \( P_i(\theta) \) - вероятность правильного ответа на слово i для
+      испытуемого с уровнем способности \( \theta \).
+    </li>
+    <li>- \( \theta \) - уровень способности испытуемого.</li>
+    <li>- \( b_i \) - параметр сложности слова i.</li>
+  </ul>
+
   <p>
-    Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit enim
-    labore culpa sint ad nisi Lorem pariatur mollit ex esse exercitation amet.
-    Nisi anim cupidatat excepteur officia. Reprehenderit nostrud nostrud ipsum
-    Lorem est aliquip amet voluptate voluptate dolor minim nulla est proident.
-    Nostrud officia pariatur ut officia. Sit irure elit esse ea nulla sunt ex
-    occaecat reprehenderit commodo officia dolor Lorem duis laboris cupidatat
-    officia voluptate. Culpa proident adipisicing id nulla nisi laboris ex in
-    Lorem sunt duis officia eiusmod. Aliqua reprehenderit commodo ex non
-    excepteur duis sunt velit enim. Voluptate laboris sint cupidatat ullamco ut
-    ea consectetur et est culpa et culpa duis.
+    Важным инструментом для оценки словарного запаса являются частотные словари.
+    Частотный словарь содержит информацию о частоте встречаемости слов в корпусе
+    текстов. Основываясь на предположении, что более часто встречающиеся слова
+    более просты для большинства носителей языка, частотные словари позволяют
+    оценить сложность слов и использовать эту информацию при составлении тестов
+    и анализе словарного запаса.
   </p>
+
   <p>
-    Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit enim
-    labore culpa sint ad nisi Lorem pariatur mollit ex esse exercitation amet.
-    Nisi anim cupidatat excepteur officia. Reprehenderit nostrud nostrud ipsum
-    Lorem est aliquip amet voluptate voluptate dolor minim nulla est proident.
-    Nostrud officia pariatur ut officia. Sit irure elit esse ea nulla sunt ex
-    occaecat reprehenderit commodo officia dolor Lorem duis laboris cupidatat
-    officia voluptate. Culpa proident adipisicing id nulla nisi laboris ex in
-    Lorem sunt duis officia eiusmod. Aliqua reprehenderit commodo ex non
-    excepteur duis sunt velit enim. Voluptate laboris sint cupidatat ullamco ut
-    ea consectetur et est culpa et culpa duis.
+    Для определения сложности слова может использоваться частота его
+    встречаемости. Частота встречаемости слова \( Freq(ipm) \) может быть
+    инверсно пропорциональна его сложности \( b_i \), что представлено следующей
+    формулой:
   </p>
+  \[ b_i = -\log(Freq(ipm)_i) \]
+
   <p>
-    Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit enim
-    labore culpa sint ad nisi Lorem pariatur mollit ex esse exercitation amet.
-    Nisi anim cupidatat excepteur officia. Reprehenderit nostrud nostrud ipsum
-    Lorem est aliquip amet voluptate voluptate dolor minim nulla est proident.
-    Nostrud officia pariatur ut officia. Sit irure elit esse ea nulla sunt ex
-    occaecat reprehenderit commodo officia dolor Lorem duis laboris cupidatat
-    officia voluptate. Culpa proident adipisicing id nulla nisi laboris ex in
-    Lorem sunt duis officia eiusmod. Aliqua reprehenderit commodo ex non
-    excepteur duis sunt velit enim. Voluptate laboris sint cupidatat ullamco ut
-    ea consectetur et est culpa et culpa duis.
+    Однако стоит учитывать возможные погрешности при оценке словарного запаса.
+    Например, некоторые слова могут иметь высокую частоту встречаемости из-за
+    специфического контекста использования, что не всегда отражает их общую
+    сложность. Также важно учитывать, что способности испытуемых могут влиять на
+    результаты тестирования, и необходимо принимать во внимание различия в
+    индивидуальных способностях при интерпретации результатов.
+  </p>
+
+  <h3 class="text-xl">Наши инструменты</h3>
+  <p>
+    На нашем сайте вы найдете инструменты для оценки вашего словарного запаса на
+    основе современных методов исследования и частотных словарей. Мы
+    предоставляем тесты, основанные на моделях IRT, а также ресурсы для работы с
+    частотными словарями. Наши методы помогут вам не только измерить ваш
+    словарный запас, но и определить области для его улучшения и развития.
   </p>
 </div>
 {% endblock content %}
