@@ -10,12 +10,14 @@ class Language(models.Model):
 
 
 class Word(models.Model):
-    word = models.CharField(max_length=50)
-    rank = models.IntegerField()
-    meaning = models.CharField(max_length=300)
+    lemma = models.CharField(max_length=50)
+    pos = models.CharField(max_length=10)
+    freq = models.FloatField()
+    r = models.IntegerField()
+    d = models.IntegerField()
+    doc = models.IntegerField()
+    difficulty = models.FloatField()
     language = models.ForeignKey(Language, on_delete=models.PROTECT)
 
-    MAX_RANK = 300_000
-
     def __str__(self):
-        return str(self.word)
+        return str(self.lemma)

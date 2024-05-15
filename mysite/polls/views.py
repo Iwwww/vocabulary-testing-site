@@ -39,37 +39,33 @@ def word(request, word_id):
     return render(request, "polls/word.html", {"word": word})
 
 
-def meaning(request, word_id):
-    response = "You're looking at the meaning of word %s."
-    return HttpResponse(response % word_id)
-
-
 def testing(request):
-    if "rank" not in request.session:
-        request.session["rank"] = 100
+    # if "rank" not in request.session:
+    #     request.session["rank"] = 100
+    #
+    # if "word_count_tested" not in request.session:
+    #     request.session["word_count_tested"] = 0
+    #
+    # if request.session["word_count_tested"] >= 20:
+    #     return HttpResponseRedirect(reverse("polls:result"))
 
-    if "word_count_tested" not in request.session:
-        request.session["word_count_tested"] = 0
-
-    if request.session["word_count_tested"] >= 20:
-        return HttpResponseRedirect(reverse("polls:result"))
-
-    target_rank = request.session["rank"]
-    word_count_tested: int = request.session["word_count_tested"]
+    # target_rank = request.session["rank"]
+    # word_count_tested: int = request.session["word_count_tested"]
     # tolerance = 50 * word_count_tested * 2**word_count_tested
-    tolerance = 500
+    # tolerance = 500
     # words_query = Word.objects.filter(
     #     Q(rank__gte=target_rank) & Q(rank__lte=target_rank + tolerance)
     # )
-    word_query = (
-        Word.objects.filter(rank__isnull=False)
-        .annotate(diff=Abs(F("rank") - target_rank))
-        .order_by("diff")
-    )
-    word: str = word_query.first()
-    print("WORD:", word)
-    request.session["last_rank"] = word.rank
+    # word_query = (
+    #     Word.objects.filter(rank__isnull=False)
+    #     .annotate(diff=Abs(F("rank") - target_rank))
+    #     .order_by("diff")
+    # )
+    # word: str = word_query.first()
+    # print("WORD:", word)
+    # request.session["last_rank"] = word.rank
 
+    word: str = "hello"
     context = {"word": word}
     return render(request, "polls/testing.html", context)
 
@@ -80,9 +76,10 @@ def process_response(request):
         if response in ["know", "dont_know"]:
             request.session["word_count_tested"] += 1
             if response == "know":
-                request.session["rank"] += request.session["last_rank"] + randint(
-                    0, 1000
-                )
+                pass
+                # request.session["rank"] += request.session["last_rank"] + randint(
+                #     0, 1000
+                # )
             # elif response == "dont_know":
             #     if request.session["rank"] > 0:
             #         pass
@@ -91,15 +88,16 @@ def process_response(request):
 
 
 def result(request):
-    word_count_tested = request.session["word_count_tested"]
-    if word_count_tested <= 0:
-        return HttpResponseRedirect(reverse("polls:testing"))
-    rank = request.session["rank"]
-    vocabular: int = int(rank / word_count_tested)
+    # word_count_tested = request.session["word_count_tested"]
+    # if word_count_tested <= 0:
+    #     return HttpResponseRedirect(reverse("polls:testing"))
+    # rank = request.session["rank"]
+    # vocabular: int = int(rank / word_count_tested)
 
-    request.session["rank"] = 100
-    request.session["word_count_tested"] = 0
+    # request.session["rank"] = 100
+    # request.session["word_count_tested"] = 0
 
+    vocabular: int = 0
     context = {"vocabular": vocabular}
     return render(request, "polls/result.html", context)
 
