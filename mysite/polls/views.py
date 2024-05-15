@@ -1,6 +1,8 @@
 from typing import List
 from random import uniform
 import numpy as np
+from scipy.optimize import minimize
+
 
 from django.db.models import F, Q, Func
 from django.db.models.functions import Abs
@@ -42,14 +44,13 @@ def word(request, word_id):
 
 def testing(request):
     if "selected_words" in request.session and "word_tested_count" in request.session:
-        request.session["word_tested_count"] += 1
         if request.session["word_tested_count"] >= len(
             request.session["selected_words"]
         ):
             del request.session["word_tested_count"]
             return HttpResponseRedirect(reverse("polls:result"))
     else:
-        # Initilize "selected_words"
+        # Initilize
         words_count = 20
         selected_option = request.POST.get("test_length")
         if selected_option == "long":
@@ -60,7 +61,7 @@ def testing(request):
         request.session["selected_words"] = select_words(
             request.session["language_id"], words_count
         )
-
+        request.session["responses"] = []
         request.session["word_tested_count"] = 0
 
     word_id = request.session["selected_words"][request.session["word_tested_count"]]
@@ -74,30 +75,25 @@ def process_response(request):
     if request.method == "POST":
         response = request.POST.get("response")
         if response in ["know", "dont_know"]:
-            # request.session["word_count_tested"] += 1
+            request.session["word_tested_count"] += 1
             if response == "know":
-                pass
-                # request.session["rank"] += request.session["last_rank"] + randint(
-                #     0, 1000
-                # )
-            # elif response == "dont_know":
-            #     if request.session["rank"] > 0:
-            #         pass
+                request.session["responses"].append(1)
+            else:
+                request.session["responses"].append(0)
 
         return HttpResponseRedirect(reverse("polls:testing"))
 
 
 def result(request):
-    # word_count_tested = request.session["word_count_tested"]
-    # if word_count_tested <= 0:
-    #     return HttpResponseRedirect(reverse("polls:testing"))
-    # rank = request.session["rank"]
-    # vocabular: int = int(rank / word_count_tested)
+    theta_hat: float = assessment_of_skills(
+        request.session["selected_words"], request.session["responses"]
+    )
+    # Оценка уровня навыков пользователя (θ), полученная ранее
+    # theta_hat = 0.7265424680961845
+    estimated_vocab_size = estimate_vocab_size(theta_hat)
 
-    # request.session["rank"] = 100
-    # request.session["word_count_tested"] = 0
-
-    vocabular: int = 0
+    print(f"Оценка словарного запаса пользователя: {estimated_vocab_size:.2f} слов")
+    vocabular: int = int(round(estimated_vocab_size, -3))
     context = {"vocabular": vocabular}
     return render(request, "polls/result.html", context)
 
@@ -126,3 +122,63 @@ def select_words(language_id: int, words_count: int) -> List[Word]:
     selected_words = [all_words[int(index)] for index in selected_indices]
 
     return selected_words
+
+
+def logistic_func(theta, b):
+    """
+    Logistic function used in 1PL IRT model.
+
+    Parameters:
+    theta (float or numpy.ndarray): Skill level of the user (scalar or array).
+    b (numpy.ndarray): Difficulty levels of the words (array).
+
+    Returns:
+    numpy.ndarray: Probabilities of knowing each word.
+    """
+    return 1 / (1 + np.exp(-(theta - b)))
+
+
+def neg_log_likelihood(theta, responses, b):
+    """
+    Negative log-likelihood function for 1PL IRT model.
+
+    Parameters:
+    theta (float): Skill level of the user.
+    responses (numpy.ndarray): User's responses (1 if known, 0 if not known).
+    b (numpy.ndarray): Difficulty levels of the words.
+
+    Returns:
+    float: Negative log-likelihood.
+    """
+    responses_array = np.array(responses)
+    probabilities = logistic_func(theta, b)
+    likelihoods = responses_array * np.log(probabilities) + (
+        1 - responses_array
+    ) * np.log(1 - probabilities)
+    return -np.sum(likelihoods)
+
+
+def assessment_of_skills(selected_word_ids, responses) -> float:
+    selected_words = Word.objects.filter(pk__in=selected_word_ids)
+
+    # Оценка уровня навыков пользователя (θ)
+    initial_theta = 0  # начальное значение θ
+    difficulties = selected_words.values_list("difficulty", flat=True)
+
+    result = minimize(
+        neg_log_likelihood, initial_theta, args=(responses, difficulties), method="BFGS"
+    )
+    theta_hat = result.x[0]
+
+    print(f"Оценка уровня навыков пользователя: {theta_hat}")
+    return theta_hat
+
+
+def estimate_vocab_size(theta):
+    L = 105000  # Максимальное количество известных слов
+    k = 0.3  # Коэффициент скорости изменения
+    theta_0 = -4  # Среднее значение theta
+
+    # Логистическая функция для оценки словарного запаса
+    vocab_size = L / (1 + np.exp(-k * (theta - theta_0)))
+    return vocab_size
