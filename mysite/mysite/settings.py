@@ -12,6 +12,18 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 
+from environs import Env
+from dotenv import load_dotenv
+from dotenv import find_dotenv
+
+env = Env()
+if env.bool("PRODUCTION", "False"):
+    load_dotenv(find_dotenv(".env.production"))
+    print("production version. Use '.env.production'")
+else:
+    load_dotenv(find_dotenv())
+    print("development version. Use '.env'")
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,12 +32,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-j*%ht6^37p1apa3m8j+%ar2qa%956%$=74#!_+lsh@gtat(77q"
+SECRET_KEY = env(
+    "SECRET_KEY", "django-insecure-j*%ht6^37p1apa3m8j+%ar2qa%956%$=74#!_+lsh@gtat(77q"
+)
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool("DEBUG", True)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", ("localhost", "127.0.0.1"))
+print("ALLOWED_HOSTS:", ALLOWED_HOSTS)
 
 
 # Application definition
@@ -40,8 +56,12 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "tailwind",
     "theme",
-    "django_browser_reload",
 ]
+
+if DEBUG:
+    INSTALLED_APPS += [
+        "django_browser_reload",
+    ]
 
 TAILWIND_APP_NAME = "theme"
 
@@ -53,8 +73,12 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
+
+if DEBUG:
+    MIDDLEWARE += [
+        "django_browser_reload.middleware.BrowserReloadMiddleware",
+    ]
 
 ROOT_URLCONF = "mysite.urls"
 
@@ -80,13 +104,24 @@ WSGI_APPLICATION = "mysite.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
+""" DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         "OPTIONS": {
             "service": "my_service",
             "passfile": ".my_pgpass",
         },
+    }
+} """
+
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": env("DB_NAME", "vocabulariy"),
+        "USER": env("DB_USER", "www"),
+        "PASSWORD": env("DB_PASSWORD", "qwerty"),
+        "HOST": env("DB_HOST", "localhost"),
+        "PORT": env.int("DB_PORT", "5432"),
     }
 }
 
