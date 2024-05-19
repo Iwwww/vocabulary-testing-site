@@ -17,12 +17,12 @@ from dotenv import load_dotenv
 from dotenv import find_dotenv
 
 env = Env()
-if env.bool("PRODUCTION", "False"):
-    load_dotenv(find_dotenv(".env.production"))
-    print("production version. Use '.env.production'")
-else:
+if env.bool("DEVELOPMENT", "False") or env.bool("DEV", "False"):
     load_dotenv(find_dotenv())
-    print("development version. Use '.env'")
+    print("DEVELOPMENT version. Use '.env.dev'")
+else:
+    load_dotenv(find_dotenv(".env"))
+    print("PRODUCTION version. Use '.env'")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -39,8 +39,9 @@ SECRET_KEY = env(
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DEBUG", True)
+print("DEBUG:", DEBUG)
 
-ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", ("localhost", "127.0.0.1"))
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 print("ALLOWED_HOSTS:", ALLOWED_HOSTS)
 
 
@@ -104,24 +105,14 @@ WSGI_APPLICATION = "mysite.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-""" DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "OPTIONS": {
-            "service": "my_service",
-            "passfile": ".my_pgpass",
-        },
-    }
-} """
-
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": env("DB_NAME", "vocabulariy"),
-        "USER": env("DB_USER", "www"),
-        "PASSWORD": env("DB_PASSWORD", "qwerty"),
-        "HOST": env("DB_HOST", "localhost"),
-        "PORT": env.int("DB_PORT", "5432"),
+        "NAME": env("DB_NAME"),
+        "USER": env("DB_USER"),
+        "PASSWORD": env("DB_PASSWORD"),
+        "HOST": env("DB_HOST"),
+        "PORT": env.int("DB_PORT"),
     }
 }
 
@@ -160,7 +151,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

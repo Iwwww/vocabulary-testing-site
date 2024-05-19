@@ -1,0 +1,61 @@
+# BUILDER
+FROM python:3 AS builder
+
+# set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+WORKDIR /usr/src/app
+
+# lint
+RUN pip install --upgrade pip
+# RUN pip install flake8==6.0.0
+# COPY . /usr/src/app/
+# RUN flake8 --ignore=E501,F401 .
+
+# install python dependencies
+COPY ./requirements.txt .
+RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/app/wheels -r requirements.txt
+
+# FINAL
+
+FROM python:3
+
+ENV USER app
+ENV HOME=/home/$USER
+ENV APP_HOME=/home/$USER/django
+
+RUN mkdir -p $HOME
+RUN mkdir $APP_HOME
+RUN mkdir $APP_HOME/staticfiles
+
+RUN addgroup --system $USER && adduser --system --group $USER
+
+WORKDIR $APP_HOME
+
+COPY --from=builder /usr/src/app/wheels /wheels
+COPY --from=builder /usr/src/app/requirements.txt .
+RUN pip install --upgrade pip
+RUN pip install --no-cache /wheels/*
+
+EXPOSE 8000
+
+COPY . $APP_HOME
+RUN chown -R $USER:$USER $APP_HOME
+
+COPY ./init_db.py /usr/src/app/init_db.py
+COPY ./wait-for-it.sh /usr/src/app/wait-for-it.sh
+
+RUN chmod +x /usr/src/app/wait-for-it.sh
+
+ARG DJANGO_SUPERUSER_PASSWORD
+ARG DJANGO_SUPERUSER_EMAIL
+ARG DJANGO_SUPERUSER_USERNAME
+
+RUN echo $DJANGO_SUPERUSER_PASSWORD
+RUN echo $DJANGO_SUPERUSER_EMAIL
+RUN echo $DJANGO_SUPERUSER_USERNAME
+
+USER $USER
+
+CMD ["sh", "-c", "./wait-for-it.sh pgdb:5432 -- python manage.py collectstatic --noinput && python manage.py migrate && python init_db.py && gunicorn mysite.wsgi:application --bind 0.0.0.0:8000"]
