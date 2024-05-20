@@ -90,15 +90,11 @@ def process_response(request):
 
 
 def result(request):
-    try:
-        theta_hat: float = assessment_of_skills(
-            request.session["selected_words"], request.session["responses"]
-        )
-        # Оценка уровня навыков пользователя (θ), полученная ранее
-        # theta_hat = 0.7265424680961845
-        estimated_vocab_size = estimate_vocab_size(theta_hat)
-    except:
-        estimated_vocab_size = 0
+    theta_hat: float = assessment_of_skills(
+        request.session["selected_words"], request.session["responses"]
+    )
+    # Оценка уровня навыков пользователя (θ), полученная ранее
+    estimated_vocab_size = estimate_vocab_size(theta_hat)
 
     print(f"Оценка словарного запаса пользователя: {estimated_vocab_size:.2f} слов")
     vocabular: int = int(round(estimated_vocab_size, -3))
@@ -167,11 +163,13 @@ def neg_log_likelihood(theta, responses, b):
 
 
 def assessment_of_skills(selected_word_ids, responses) -> float:
-    selected_words = Word.objects.filter(pk__in=selected_word_ids)
+    words = Word.objects.filter(pk__in=selected_word_ids)
+    word_dict = {word.id: word for word in words}
+    selected_words = [word_dict[word_id] for word_id in selected_word_ids]
 
     # Оценка уровня навыков пользователя (θ)
     initial_theta = 0  # начальное значение θ
-    difficulties = selected_words.values_list("difficulty", flat=True)
+    difficulties = [word.difficulty for word in selected_words]
 
     result = minimize(
         neg_log_likelihood, initial_theta, args=(responses, difficulties), method="BFGS"
