@@ -3,6 +3,14 @@ from typing import List
 
 from polls.models import Language, Word
 
+import numpy as np
+from numpy import random
+import pandas as pd
+
+from environs import Env
+from dotenv import load_dotenv
+from dotenv import find_dotenv
+
 
 def openFile(filename: str) -> List[List[str]]:
     data: List = []
@@ -12,15 +20,6 @@ def openFile(filename: str) -> List[List[str]]:
             data.append(line.split())
 
     return data
-
-
-def filterData(data: List[List[str]]) -> List[List[str]]:
-    filtered_data = []
-    for d in data:
-        if d[1] == "s":
-            filtered_data.append(d)
-
-    return filtered_data
 
 
 def add_words_from_dataframe(df):
@@ -40,32 +39,50 @@ def add_words_from_dataframe(df):
         print("Added:", row["Lemma"])
 
 
-# data = openFile("freqrnc2011.csv")    # for prodaction
-data = openFile("freqrnc2011-short.csv")  # for testing
-# filtered_data = filterData(data)
-# print("Words count:", len(filtered_data))
-
-import numpy as np
-import pandas as pd
+data = openFile("freqrnc2011.csv")  # for prodaction
 
 # Создание DataFrame
 df = pd.DataFrame(data, columns=["Lemma", "PoS", "Freq(ipm)", "R", "D", "Doc"])
+print("Data:")
 print(df)
 
 # Преобразование столбца Freq(ipm) в числовой тип
 df["Freq(ipm)"] = pd.to_numeric(df["Freq(ipm)"])
 
 # Фильтрация только существительных
-# df = df[(df["PoS"] == "s")].copy()
+df = df[(df["PoS"] == "s")].copy()
 
 # Рассчет сложности слова (чем реже слово, тем сложнее)
 df["Difficulty"] = -np.log(df["Freq(ipm)"])
 
+print("Not sorted:")
 print(df)
 
 # Сортируем слова по сложности
 df = df.sort_values("Difficulty")
 
+env = Env()
+# Создаём маленькую выборку
+if env.bool("DEVELOPMENT", "False") or env.bool("DEV", "False"):
+    # Количество слов
+    num_words = 500
+
+    # Генерация случайных смещений для выбора индексов
+    random_offsets = [random.uniform(-50, 50) for _ in range(num_words)]
+
+    # Равномерное распределение слов по сложности с учетом случайных смещений
+    selected_indices = (
+        np.linspace(0, len(df) - 1, num_words, dtype=int) + random_offsets
+    )
+    selected_indices = np.clip(selected_indices, 0, len(df) - 1).astype(int)
+
+    # Выбор слов из DataFrame на основе случайных индексов
+    selected_words = df.iloc[selected_indices]
+    df = selected_words.copy()
+
+
+print("Final list:")
+print(df)
 add_words_from_dataframe(df)
 
 # pass
