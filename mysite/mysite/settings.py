@@ -36,6 +36,9 @@ SECRET_KEY = env(
     "SECRET_KEY", "django-insecure-j*%ht6^37p1apa3m8j+%ar2qa%956%$=74#!_+lsh@gtat(77q"
 )
 
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+CSRF_TRUSTED_ORIGINS = env.list("CSRF_TRUSTED_ORIGINS")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DEBUG", True)

@@ -29,15 +29,38 @@ services:
     env_file:
       - ./.env
 
-  nginx:
-    build: ./nginx
+  nginx-proxy:
+    build: nginx
+    container_name: nginx-proxy
     volumes:
       - static_volume:/home/app/django/staticfiles
+      - certs:/etc/nginx/certs
+      - html:/usr/share/nginx/html
+      - vhost:/etc/nginx/vhost.d
+      - /var/run/docker.sock:/tmp/docker.sock:ro
     ports:
       - 80:80
+      - 443:443
     depends_on:
       - django
+
+  acme-companion:
+    image: nginxproxy/acme-companion
+    env_file:
+      - ./.env
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - certs:/etc/nginx/certs
+      - html:/usr/share/nginx/html
+      - vhost:/etc/nginx/vhost.d
+      - acme:/etc/acme.sh
+    depends_on:
+      - nginx-proxy
 
 volumes:
   pgdbdata:
   static_volume:
+  certs:
+  html:
+  vhost:
+  acme:

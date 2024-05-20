@@ -21,6 +21,8 @@ RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/app/wheels -r requir
 
 FROM python:3
 
+RUN apt update -y && apt install -y npm
+
 ENV USER app
 ENV HOME=/home/$USER
 ENV APP_HOME=/home/$USER/django
@@ -52,10 +54,6 @@ ARG DJANGO_SUPERUSER_PASSWORD
 ARG DJANGO_SUPERUSER_EMAIL
 ARG DJANGO_SUPERUSER_USERNAME
 
-RUN echo $DJANGO_SUPERUSER_PASSWORD
-RUN echo $DJANGO_SUPERUSER_EMAIL
-RUN echo $DJANGO_SUPERUSER_USERNAME
-
 USER $USER
 
-CMD ["sh", "-c", "./wait-for-it.sh pgdb:5432 -- python manage.py collectstatic --noinput && python manage.py migrate && python init_db.py && gunicorn mysite.wsgi:application --bind 0.0.0.0:8000"]
+CMD ["sh", "-c", "./wait-for-it.sh pgdb:5432 -- python manage.py collectstatic --noinput && python manage.py migrate && python init_db.py && python manage.py tailwind build && gunicorn mysite.wsgi:application --bind 0.0.0.0:8000"]

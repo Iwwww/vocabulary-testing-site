@@ -6,6 +6,7 @@ services:
         DJANGO_SUPERUSER_PASSWORD: ${DJANGO_SUPERUSER_PASSWORD}
         DJANGO_SUPERUSER_EMAIL: ${DJANGO_SUPERUSER_EMAIL}
         DJANGO_SUPERUSER_USERNAME: ${DJANGO_SUPERUSER_USERNAME}
+        DEBUG: ${DEBUG}
     volumes:
       - ./mysite:/usr/src/app
     ports:
@@ -29,12 +30,5 @@ services:
     env_file:
       - ./.env.dev
 
-  nginx:
-    build: ./nginx
-    ports:
-      - 1337:80
-    depends_on:
-      - django
-
 volumes:
-  pgdbdata: null
+  pgdbdata:
