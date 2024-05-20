@@ -16,6 +16,9 @@ ENV PYTHONUNBUFFERED 1
 
 WORKDIR /usr/src/app
 
+RUN apt-get update && apt-get install -y \
+gettext 
+
 RUN pip install --upgrade pip
 RUn pip install --upgrade setuptools
 COPY requirements-dev.txt ./
@@ -29,4 +32,4 @@ RUN chmod +x /usr/src/app/wait-for-it.sh
 
 EXPOSE 8000
 
-CMD ["sh", "-c", "./wait-for-it.sh pgdb:5432 -- python manage.py migrate && python init_db.py && python manage.py runserver 0.0.0.0:8000"]
+CMD ["sh", "-c", "./wait-for-it.sh pgdb:5432 -- python manage.py migrate && python init_db.py && django-admin compilemessages > /dev/null && python manage.py runserver 0.0.0.0:8000"]

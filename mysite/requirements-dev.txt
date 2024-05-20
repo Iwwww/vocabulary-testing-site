@@ -1,6 +1,7 @@
 Django==5.0.6
 django-browser-reload==1.12.1
 django-tailwind==3.8.0
+django-rosetta==0.10.0
 environs==11.0.0
 psycopg2==2.9.9
 numpy==1.26.4

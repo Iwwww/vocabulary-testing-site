@@ -1,7 +1,8 @@
 {% extends 'base.html' %} {% load static tailwind_tags %} {% block content %}
+{% load i18n %}
 <div class="text-center space-y-4 my-5">
   <h1 class="text-2xl">
-    Your vocabular is
+      {% trans 'Your vocabular is' %}
     <span class="font-bold text-blue-600">{{ vocabular }}</span>
   </h1>
   <form action="{% url 'polls:index' %}" method="post">
@@ -10,9 +11,7 @@
       type="submit"
       name="response"
       class="inline-block bg-green-500 text-white py-2 px-4 rounded-full hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-75 active:bg-green-700"
-    >
-      Reset
-    </button>
+    >{% trans 'Reset' %}</button>
   </form>
 </div>
 {% endblock content %}

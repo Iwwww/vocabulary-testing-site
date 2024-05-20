@@ -1,4 +1,5 @@
 {% extends 'base.html' %} {% load static tailwind_tags %} {% block content %}
+{% load i18n %}
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script
   id="MathJax-script"
@@ -6,66 +7,25 @@
   src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
 ></script>
 <div class="mx-auto bg-gray-200 p-4 space-y-5 max-w-prose">
-  <h1 class="text-2xl text-center my-5">
-    О методах тестирования на сайте Вокабулярий
-  </h1>
-  <p>
-    Одним из основных методов оценки словарного запаса является использование
-    тестов, основанных на Современной теории тестов (Item Response Theory, IRT).
-    Эти методы позволяют учитывать не только количество известных слов, но и их
-    сложность. Модель Раша (Rasch Model) и его вариации (например, 1PL, 2PL,
-    3PL) широко применяются для оценки словарного запаса.
-  </p>
-
-  <p>
-    В модели Раша (1PL) вероятность правильного ответа на слово зависит от
-    уровня способности испытуемого и сложности слова, представленной параметром
-    \( b_i \):
-  </p>
-  \[ P_i(\theta) = \frac{1}{1 + e^{-(\theta - b_i)}} \]
+  <h1 class="text-2xl text-center my-5">{% trans 'On Testing Methods at the Vocabulary Website' %}</h1>
+  <p>{% trans 'One of the main methods for assessing vocabulary is the use of tests based on the Modern Theory of Testing (Item Response Theory, IRT). These methods allow for the consideration of not only the number of known words but also their complexity. The Rasch Model and its variations (e.g., 1PL, 2PL, 3PL) are widely used for assessing vocabulary.' %}</p>
+  <p>{% trans "In the Rasch Model (1PL), the probability of correctly answering a word depends on the test-taker's ability level and the word's difficulty, represented by the parameter" %} \( b_i \):</p>
   <ul>
-    Где:
-    <li>
-      - \( P_i(\theta) \) - вероятность правильного ответа на слово i для
-      испытуемого с уровнем способности \( \theta \).
-    </li>
-    <li>- \( \theta \) - уровень способности испытуемого.</li>
-    <li>- \( b_i \) - параметр сложности слова i.</li>
+    <li>\[ P_i(\theta) = \frac{1}{1 + e^{-(\theta - b_i)}} \]</li>
+    <p>{% trans 'Where:' %}</p>
+    <li>{% trans '- \( P_i(\theta) \) - the probability of correctly answering word i for a test-taker with ability level \( \theta \).' %}</li>
+    <li>- \( \theta \) - {% trans "the test-taker's ability level." %}</li>
+    <li>- \( b_i \) - {% trans 'the difficulty parameter of word i.' %}</li>
   </ul>
 
-  <p>
-    Важным инструментом для оценки словарного запаса являются частотные словари.
-    Частотный словарь содержит информацию о частоте встречаемости слов в корпусе
-    текстов. Основываясь на предположении, что более часто встречающиеся слова
-    более просты для большинства носителей языка, частотные словари позволяют
-    оценить сложность слов и использовать эту информацию при составлении тестов
-    и анализе словарного запаса.
-  </p>
+  <p>{% trans 'An important tool for assessing vocabulary is frequency dictionaries. A frequency dictionary contains information about the frequency of words in a text corpus. Based on the assumption that more frequently occurring words are easier for most native speakers, frequency dictionaries allow for the assessment of word difficulty and use this information in test construction and vocabulary analysis.' %}</p>
 
-  <p>
-    Для определения сложности слова может использоваться частота его
-    встречаемости. Частота встречаемости слова \( Freq(ipm) \) может быть
-    инверсно пропорциональна его сложности \( b_i \), что представлено следующей
-    формулой:
-  </p>
-  \[ b_i = -\log(Freq(ipm)_i) \]
+  <p>{% trans 'Word difficulty can be determined using its frequency of occurrence. The frequency of occurrence \( Freq(ipm) \) can be inversely proportional to its difficulty \( b_i \), as represented by the following formula:' %}</p>
+  <p>\[ b_i = -\log(Freq(ipm)_i) \]</p>
+  <p>{% trans "However, potential inaccuracies in vocabulary assessment should be considered. For example, some words may have a high frequency due to specific usage contexts, which may not always reflect their overall difficulty. It is also important to consider that test-takers' abilities can affect test results, and individual ability differences should be taken into account when interpreting results." %}</p>
 
-  <p>
-    Однако стоит учитывать возможные погрешности при оценке словарного запаса.
-    Например, некоторые слова могут иметь высокую частоту встречаемости из-за
-    специфического контекста использования, что не всегда отражает их общую
-    сложность. Также важно учитывать, что способности испытуемых могут влиять на
-    результаты тестирования, и необходимо принимать во внимание различия в
-    индивидуальных способностях при интерпретации результатов.
-  </p>
-
-  <h3 class="text-xl">Наши инструменты</h3>
-  <p>
-    На нашем сайте вы найдете инструменты для оценки вашего словарного запаса на
-    основе современных методов исследования и частотных словарей. Мы
-    предоставляем тесты, основанные на моделях IRT, а также ресурсы для работы с
-    частотными словарями. Наши методы помогут вам не только измерить ваш
-    словарный запас, но и определить области для его улучшения и развития.
-  </p>
+  <h3 class="text-xl">{% trans 'Our Tools' %}</h3>
+  <p>{% trans 'On our website, you will find tools to assess your vocabulary based on modern research methods and frequency dictionaries. We provide tests based on IRT models and resources for working with frequency dictionaries. Our methods will help you not only measure your vocabulary but also identify areas for improvement and development.' %}</p>
 </div>
+
 {% endblock content %}

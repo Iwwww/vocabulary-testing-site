@@ -1,0 +1,204 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-05-20 21:23+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: env/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:7
+#: env/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:220
+msgid "The install worked successfully! Congratulations!"
+msgstr ""
+
+#: env/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:206
+#, python-format
+msgid ""
+"View <a href=\"https://docs.djangoproject.com/en/%(version)s/releases/\" "
+"target=\"_blank\" rel=\"noopener\">release notes</a> for Django %(version)s"
+msgstr ""
+
+#: env/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:221
+#, python-format
+msgid ""
+"You are seeing this page because <a href=\"https://docs.djangoproject.com/en/"
+"%(version)s/ref/settings/#debug\" target=\"_blank\" "
+"rel=\"noopener\">DEBUG=True</a> is in your settings file and you have not "
+"configured any URLs."
+msgstr ""
+
+#: env/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:229
+msgid "Django Documentation"
+msgstr ""
+
+#: env/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:230
+msgid "Topics, references, &amp; how-to’s"
+msgstr ""
+
+#: env/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:238
+msgid "Tutorial: A Polling App"
+msgstr ""
+
+#: env/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:239
+msgid "Get started with Django"
+msgstr ""
+
+#: env/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:247
+msgid "Django Community"
+msgstr ""
+
+#: env/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:248
+msgid "Connect, get help, or contribute"
+msgstr ""
+
+#: env/lib/python3.12/site-packages/django/views/templates/directory_index.html:8
+#: env/lib/python3.12/site-packages/django/views/templates/directory_index.html:11
+#, python-format
+msgid "Index of %(directory)s"
+msgstr ""
+
+#: polls/templates/polls/about.html:10
+msgid "On Testing Methods at the Vocabulary Website"
+msgstr ""
+
+#: polls/templates/polls/about.html:11
+msgid ""
+"One of the main methods for assessing vocabulary is the use of tests based "
+"on the Modern Theory of Testing (Item Response Theory, IRT). These methods "
+"allow for the consideration of not only the number of known words but also "
+"their complexity. The Rasch Model and its variations (e.g., 1PL, 2PL, 3PL) "
+"are widely used for assessing vocabulary."
+msgstr ""
+
+#: polls/templates/polls/about.html:12
+msgid ""
+"In the Rasch Model (1PL), the probability of correctly answering a word "
+"depends on the test-taker's ability level and the word's difficulty, "
+"represented by the parameter"
+msgstr ""
+
+#: polls/templates/polls/about.html:15
+msgid "Where:"
+msgstr ""
+
+#: polls/templates/polls/about.html:16
+msgid ""
+"- \\( P_i(\\theta) \\) - the probability of correctly answering word i for a "
+"test-taker with ability level \\( \\theta \\)."
+msgstr ""
+
+#: polls/templates/polls/about.html:17
+msgid "the test-taker's ability level."
+msgstr ""
+
+#: polls/templates/polls/about.html:18
+msgid "the difficulty parameter of word i."
+msgstr ""
+
+#: polls/templates/polls/about.html:21
+msgid ""
+"An important tool for assessing vocabulary is frequency dictionaries. A "
+"frequency dictionary contains information about the frequency of words in a "
+"text corpus. Based on the assumption that more frequently occurring words "
+"are easier for most native speakers, frequency dictionaries allow for the "
+"assessment of word difficulty and use this information in test construction "
+"and vocabulary analysis."
+msgstr ""
+
+#: polls/templates/polls/about.html:23
+msgid ""
+"Word difficulty can be determined using its frequency of occurrence. The "
+"frequency of occurrence \\( Freq(ipm) \\) can be inversely proportional to "
+"its difficulty \\( b_i \\), as represented by the following formula:"
+msgstr ""
+
+#: polls/templates/polls/about.html:25
+msgid ""
+"However, potential inaccuracies in vocabulary assessment should be "
+"considered. For example, some words may have a high frequency due to "
+"specific usage contexts, which may not always reflect their overall "
+"difficulty. It is also important to consider that test-takers' abilities can "
+"affect test results, and individual ability differences should be taken into "
+"account when interpreting results."
+msgstr ""
+
+#: polls/templates/polls/about.html:27
+msgid "Our Tools"
+msgstr ""
+
+#: polls/templates/polls/about.html:28
+msgid ""
+"On our website, you will find tools to assess your vocabulary based on "
+"modern research methods and frequency dictionaries. We provide tests based "
+"on IRT models and resources for working with frequency dictionaries. Our "
+"methods will help you not only measure your vocabulary but also identify "
+"areas for improvement and development."
+msgstr ""
+
+#: polls/templates/polls/index.html:5
+msgid "Test your vocabular"
+msgstr ""
+
+#: polls/templates/polls/index.html:15
+msgid "Short (20 words)"
+msgstr ""
+
+#: polls/templates/polls/index.html:16
+msgid "Medium (40 words)"
+msgstr ""
+
+#: polls/templates/polls/index.html:17
+msgid "Long (80 words)"
+msgstr ""
+
+#: polls/templates/polls/index.html:19
+msgid "Choose target language"
+msgstr ""
+
+#: polls/templates/polls/index.html:31
+msgid "No languages available"
+msgstr ""
+
+#: polls/templates/polls/result.html:5
+msgid "Your vocabular is"
+msgstr ""
+
+#: polls/templates/polls/result.html:14
+msgid "Reset"
+msgstr ""
+
+#: polls/templates/polls/testing.html:12
+msgid "Know"
+msgstr ""
+
+#: polls/templates/polls/testing.html:18
+msgid "Don't know"
+msgstr ""
+
+#: polls/templates/polls/testing.html:21
+msgid "Word count tested:"
+msgstr ""
+
+#: theme/templates/base.html:43
+msgid "Open main menu"
+msgstr ""
+
+#: theme/templates/base.html:70
+msgid "Home page"
+msgstr "Home"
+
+#: theme/templates/base.html:77
+msgid "About"
+msgstr ""

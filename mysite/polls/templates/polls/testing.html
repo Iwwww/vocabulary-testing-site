@@ -1,4 +1,5 @@
 {% extends 'base.html' %} {% load static tailwind_tags %} {% block content %}
+{% load i18n %}
 <div class="text-center space-y-4 my-5">
   <h1 class="text-2xl font-bold">{{ word }}</h1>
   <form action="{% url 'polls:process_response' %}" method="post">
@@ -8,20 +9,16 @@
       name="response"
       value="know"
       class="inline-block bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-75 active:bg-green-700"
-    >
-      Know
-    </button>
+    >{% trans 'Know' %}</button>
     <button
       type="submit"
       name="response"
       value="dont_know"
       class="inline-block bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-75 active:bg-red-700"
-    >
-      Don't know
-    </button>
+    >{% trans "Don't know" %}</button>
   </form>
   <div>
-    <p>Word count tested: {{ request.session.word_tested_count }}</p>
+      <p>{% trans 'Word count tested:' %} {{ request.session.word_tested_count }}</p>
   </div>
 </div>
 {% endblock content %}
