@@ -3,19 +3,21 @@ from random import uniform
 import numpy as np
 from scipy.optimize import minimize
 
-
-from django.db.models import F, Q, Func
-from django.db.models.functions import Abs
-from django.http import Http404, HttpResponse, HttpResponseBadRequest, HttpResponseBase
 from django.http.response import HttpResponseRedirect
-from django.shortcuts import redirect, render, get_object_or_404, get_list_or_404
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
-
 
 from .models import Language, Word
 
 
 def index(request):
+    if request.session in ["word_tested_count"]:
+        del request.session["word_tested_count"]
+    if request.session in ["selected_words"]:
+        del request.session["selected_words"]
+    if request.session in ["responses"]:
+        del request.session["responses"]
+
     language_list = Language.objects.values_list("id", "language")
     select_language(request, language_list[0][0])  # language_list is not empty
 
@@ -75,22 +77,28 @@ def process_response(request):
     if request.method == "POST":
         response = request.POST.get("response")
         if response in ["know", "dont_know"]:
-            request.session["word_tested_count"] += 1
-            if response == "know":
-                request.session["responses"].append(1)
-            else:
-                request.session["responses"].append(0)
+            try:
+                request.session["word_tested_count"] += 1
+                if response == "know":
+                    request.session["responses"].append(1)
+                else:
+                    request.session["responses"].append(0)
+            except:
+                pass
 
-        return HttpResponseRedirect(reverse("polls:testing"))
+    return HttpResponseRedirect(reverse("polls:testing"))
 
 
 def result(request):
-    theta_hat: float = assessment_of_skills(
-        request.session["selected_words"], request.session["responses"]
-    )
-    # Оценка уровня навыков пользователя (θ), полученная ранее
-    # theta_hat = 0.7265424680961845
-    estimated_vocab_size = estimate_vocab_size(theta_hat)
+    try:
+        theta_hat: float = assessment_of_skills(
+            request.session["selected_words"], request.session["responses"]
+        )
+        # Оценка уровня навыков пользователя (θ), полученная ранее
+        # theta_hat = 0.7265424680961845
+        estimated_vocab_size = estimate_vocab_size(theta_hat)
+    except:
+        estimated_vocab_size = 0
 
     print(f"Оценка словарного запаса пользователя: {estimated_vocab_size:.2f} слов")
     vocabular: int = int(round(estimated_vocab_size, -3))
