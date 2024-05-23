@@ -7,7 +7,7 @@ from django.http.response import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 
-from .models import Language, Word
+from .models import Language, UserResponse, Word
 
 
 def index(request):
@@ -76,10 +76,21 @@ def testing(request):
 def process_response(request):
     if request.method == "POST":
         response = request.POST.get("response")
+        word_id = request.session["selected_words"][
+            request.session["word_tested_count"]
+        ]
+        user_session = request.session.session_key
+
         if response in ["know", "dont_know"]:
             try:
                 request.session["word_tested_count"] += 1
-                if response == "know":
+                response_value = response == "know"
+                UserResponse.objects.create(
+                    user_session=user_session,
+                    word_id=word_id,
+                    response=response_value,
+                )
+                if response_value:
                     request.session["responses"].append(1)
                 else:
                     request.session["responses"].append(0)

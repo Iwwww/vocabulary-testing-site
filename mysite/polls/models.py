@@ -21,3 +21,13 @@ class Word(models.Model):
 
     def __str__(self):
         return str(self.lemma)
+
+
+class UserResponse(models.Model):
+    user_session = models.CharField(max_length=255)
+    word = models.ForeignKey(Word, on_delete=models.CASCADE)
+    response = models.BooleanField()  # True for "know", False for "don't know"
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Session: {self.user_session}, Word: {self.word}, Response: {self.response}"
