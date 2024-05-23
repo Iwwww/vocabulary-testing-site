@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models.fields.files import default_storage
 
@@ -21,6 +22,20 @@ class Word(models.Model):
 
     def __str__(self):
         return str(self.lemma)
+
+
+class AssessmentParameters(models.Model):
+    max_known_words = models.IntegerField(default=105000)  # L
+    rate_change_coefficient = models.FloatField(default=0.25)  # k
+    average_theta = models.FloatField(default=-1.5)  # theta_0
+
+    def __str__(self):
+        return f"Max known words: {self.max_known_words}, rate change coefficient: {self.rate_change_coefficient}, average theta: {self.average_theta}"
+
+    def save(self, *args, **kwargs):
+        if not self.pk and SiteSettings.objects.exists():
+            raise ValidationError("There can be only one AssessmentParameters instance")
+        return super(AssessmentParameters, self).save(*args, **kwargs)
 
 
 class UserResponse(models.Model):

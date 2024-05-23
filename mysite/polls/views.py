@@ -7,7 +7,7 @@ from django.http.response import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 
-from .models import Language, UserResponse, Word
+from .models import AssessmentParameters, Language, UserResponse, Word
 
 
 def index(request):
@@ -76,25 +76,34 @@ def testing(request):
 def process_response(request):
     if request.method == "POST":
         response = request.POST.get("response")
-        word_id = request.session["selected_words"][
-            request.session["word_tested_count"]
-        ]
         user_session = request.session.session_key
+
+        if (
+            "word_tested_count" in request.session
+            and "selected_words" in request.session
+        ):
+            word_id = request.session["selected_words"][
+                request.session["word_tested_count"]
+            ]
+        else:
+            return HttpResponseRedirect(reverse("polls:testing"))
 
         if response in ["know", "dont_know"]:
             try:
-                request.session["word_tested_count"] += 1
                 response_value = response == "know"
-                UserResponse.objects.create(
-                    user_session=user_session,
-                    word_id=word_id,
-                    response=response_value,
-                )
+                request.session["word_tested_count"] += 1
                 if response_value:
                     request.session["responses"].append(1)
                 else:
                     request.session["responses"].append(0)
-            except:
+
+                user_response = UserResponse.objects.create(
+                    user_session=user_session,
+                    word_id=word_id,
+                    response=response_value,
+                )
+
+            except Exception as e:
                 pass
 
     return HttpResponseRedirect(reverse("polls:testing"))
@@ -104,13 +113,29 @@ def result(request):
     theta_hat: float = assessment_of_skills(
         request.session["selected_words"], request.session["responses"]
     )
+
+    # Ensure default assessment parameters exist
+    params, created = AssessmentParameters.objects.get_or_create()
+
+    l = params.max_known_words
+    k = params.rate_change_coefficient
+    theta_0 = params.average_theta
+
     # Оценка уровня навыков пользователя (θ), полученная ранее
-    estimated_vocab_size = estimate_vocab_size(theta_hat)
+    estimated_vocab_size = estimate_vocab_size(theta_hat, l, k, theta_0)
 
     print(f"Оценка словарного запаса пользователя: {estimated_vocab_size:.2f} слов")
     vocabular: int = int(round(estimated_vocab_size, -3))
     context = {"vocabular": vocabular}
     return render(request, "polls/result.html", context)
+
+
+def estimate_vocab_size(theta, l, k, theta_0):
+    """
+    Логистическая функция для оценки словарного запаса
+    """
+    vocab_size = l / (1 + np.exp(-k * (theta - theta_0)))
+    return vocab_size
 
 
 def about(request):
@@ -189,13 +214,3 @@ def assessment_of_skills(selected_word_ids, responses) -> float:
 
     print(f"Оценка уровня навыков пользователя: {theta_hat}")
     return theta_hat
-
-
-def estimate_vocab_size(theta):
-    L = 105000  # Максимальное количество известных слов
-    k = 0.3  # Коэффициент скорости изменения
-    theta_0 = -4  # Среднее значение theta
-
-    # Логистическая функция для оценки словарного запаса
-    vocab_size = L / (1 + np.exp(-k * (theta - theta_0)))
-    return vocab_size
