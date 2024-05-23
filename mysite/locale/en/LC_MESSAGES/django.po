@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-20 21:23+0300\n"
+"POT-Creation-Date: 2024-05-23 12:31+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -151,23 +151,27 @@ msgstr ""
 msgid "Test your vocabular"
 msgstr ""
 
-#: polls/templates/polls/index.html:15
-msgid "Short (20 words)"
+#: polls/templates/polls/index.html:10
+msgid "Test length"
 msgstr ""
 
 #: polls/templates/polls/index.html:16
-msgid "Medium (40 words)"
+msgid "Short (20 words)"
 msgstr ""
 
 #: polls/templates/polls/index.html:17
+msgid "Medium (40 words)"
+msgstr ""
+
+#: polls/templates/polls/index.html:18
 msgid "Long (80 words)"
 msgstr ""
 
-#: polls/templates/polls/index.html:19
+#: polls/templates/polls/index.html:20
 msgid "Choose target language"
 msgstr ""
 
-#: polls/templates/polls/index.html:31
+#: polls/templates/polls/index.html:32
 msgid "No languages available"
 msgstr ""
 

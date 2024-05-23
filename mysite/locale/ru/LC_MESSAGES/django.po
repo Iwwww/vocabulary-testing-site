@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-20 21:23+0300\n"
-"PO-Revision-Date: 2024-05-20 21:26+0300\n"
+"POT-Creation-Date: 2024-05-23 12:31+0300\n"
+"PO-Revision-Date: 2024-05-23 12:33+0300\n"
 "Last-Translator:   <dev@example.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -182,23 +182,27 @@ msgstr ""
 msgid "Test your vocabular"
 msgstr "Проверь словарный запас"
 
-#: polls/templates/polls/index.html:15
+#: polls/templates/polls/index.html:10
+msgid "Test length"
+msgstr "Длина теста"
+
+#: polls/templates/polls/index.html:16
 msgid "Short (20 words)"
 msgstr "Короткий (20 слов)"
 
-#: polls/templates/polls/index.html:16
+#: polls/templates/polls/index.html:17
 msgid "Medium (40 words)"
 msgstr "Средний (40 слов)"
 
-#: polls/templates/polls/index.html:17
+#: polls/templates/polls/index.html:18
 msgid "Long (80 words)"
 msgstr "Длинный (80 слов)"
 
-#: polls/templates/polls/index.html:19
+#: polls/templates/polls/index.html:20
 msgid "Choose target language"
 msgstr "Выберете языка"
 
-#: polls/templates/polls/index.html:31
+#: polls/templates/polls/index.html:32
 msgid "No languages available"
 msgstr "Нет доступных языков"
 
