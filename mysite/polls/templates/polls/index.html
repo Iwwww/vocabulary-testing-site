@@ -7,8 +7,9 @@
   <div class="max-w-sm mx-auto">
     <form class="max-w-sm" action="{% url 'polls:testing' %}" method="post">
       {% csrf_token %}
+      <label for="test-length">{% trans 'Test length' %}:</label>
       <select
-        id="countries"
+        id="test-length"
         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
         name="test_length"
       >
