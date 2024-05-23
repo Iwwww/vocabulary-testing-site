@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-23 12:31+0300\n"
+"POT-Creation-Date: 2024-05-23 14:06+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -95,7 +95,7 @@ msgstr ""
 
 #: polls/templates/polls/about.html:16
 msgid ""
-"- \\( P_i(\\theta) \\) - the probability of correctly answering word i for a "
+"\\( P_i(\\theta) \\) - the probability of correctly answering word i for a "
 "test-taker with ability level \\( \\theta \\)."
 msgstr ""
 
@@ -195,14 +195,14 @@ msgstr ""
 msgid "Word count tested:"
 msgstr ""
 
-#: theme/templates/base.html:43
+#: theme/templates/base.html:46
 msgid "Open main menu"
 msgstr ""
 
-#: theme/templates/base.html:70
+#: theme/templates/base.html:73
 msgid "Home page"
 msgstr "Home"
 
-#: theme/templates/base.html:77
+#: theme/templates/base.html:80
 msgid "About"
 msgstr ""

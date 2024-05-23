@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-23 12:31+0300\n"
-"PO-Revision-Date: 2024-05-23 12:33+0300\n"
+"POT-Creation-Date: 2024-05-23 14:06+0300\n"
+"PO-Revision-Date: 2024-05-23 14:12+0300\n"
 "Last-Translator:   <dev@example.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -103,10 +103,10 @@ msgstr " Где:"
 
 #: polls/templates/polls/about.html:16
 msgid ""
-"- \\( P_i(\\theta) \\) - the probability of correctly answering word i for a"
-" test-taker with ability level \\( \\theta \\)."
+"\\( P_i(\\theta) \\) - the probability of correctly answering word i for a "
+"test-taker with ability level \\( \\theta \\)."
 msgstr ""
-"- \\( P_i(\\theta) \\) - вероятность правильного ответа на слово i для "
+"\\( P_i(\\theta) \\) - вероятность правильного ответа на слово i для "
 "испытуемого с уровнем способности \\( \\theta \\). "
 
 #: polls/templates/polls/about.html:17
@@ -139,7 +139,7 @@ msgid ""
 "frequency of occurrence \\( Freq(ipm) \\) can be inversely proportional to "
 "its difficulty \\( b_i \\), as represented by the following formula:"
 msgstr ""
-" Для определения сложности слова может использоваться частота его "
+"Для определения сложности слова может использоваться частота его "
 "встречаемости. Частота встречаемости слова \\( Freq(ipm) \\) может быть "
 "инверсно пропорциональна его сложности \\( b_i \\), что представлено "
 "следующей формулой: "
@@ -226,14 +226,14 @@ msgstr "Не знаю"
 msgid "Word count tested:"
 msgstr "Количество протестированных слов:"
 
-#: theme/templates/base.html:43
+#: theme/templates/base.html:46
 msgid "Open main menu"
 msgstr "Открыть главное меню"
 
-#: theme/templates/base.html:70
+#: theme/templates/base.html:73
 msgid "Home page"
 msgstr "Главная"
 
-#: theme/templates/base.html:77
+#: theme/templates/base.html:80
 msgid "About"
 msgstr "О сайте"

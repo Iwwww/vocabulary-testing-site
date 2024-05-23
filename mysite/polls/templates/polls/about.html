@@ -10,12 +10,12 @@
   <h1 class="text-2xl text-center my-5">{% trans 'On Testing Methods at the Vocabulary Website' %}</h1>
   <p>{% trans 'One of the main methods for assessing vocabulary is the use of tests based on the Modern Theory of Testing (Item Response Theory, IRT). These methods allow for the consideration of not only the number of known words but also their complexity. The Rasch Model and its variations (e.g., 1PL, 2PL, 3PL) are widely used for assessing vocabulary.' %}</p>
   <p>{% trans "In the Rasch Model (1PL), the probability of correctly answering a word depends on the test-taker's ability level and the word's difficulty, represented by the parameter" %} \( b_i \):</p>
-  <ul>
-    <li>\[ P_i(\theta) = \frac{1}{1 + e^{-(\theta - b_i)}} \]</li>
+  <p>\[ P_i(\theta) = \frac{1}{1 + e^{-(\theta - b_i)}} \]</p>
+  <ul class="list-inside list-[square]">
     <p>{% trans 'Where:' %}</p>
-    <li>{% trans '- \( P_i(\theta) \) - the probability of correctly answering word i for a test-taker with ability level \( \theta \).' %}</li>
-    <li>- \( \theta \) - {% trans "the test-taker's ability level." %}</li>
-    <li>- \( b_i \) - {% trans 'the difficulty parameter of word i.' %}</li>
+    <li>{% trans '\( P_i(\theta) \) - the probability of correctly answering word i for a test-taker with ability level \( \theta \).' %}</li>
+    <li>\( \theta \) - {% trans "the test-taker's ability level." %}</li>
+    <li>\( b_i \) - {% trans 'the difficulty parameter of word i.' %}</li>
   </ul>
 
   <p>{% trans 'An important tool for assessing vocabulary is frequency dictionaries. A frequency dictionary contains information about the frequency of words in a text corpus. Based on the assumption that more frequently occurring words are easier for most native speakers, frequency dictionaries allow for the assessment of word difficulty and use this information in test construction and vocabulary analysis.' %}</p>
