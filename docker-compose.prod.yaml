@@ -7,6 +7,7 @@ services:
         DJANGO_SUPERUSER_PASSWORD: ${DJANGO_SUPERUSER_PASSWORD}
         DJANGO_SUPERUSER_EMAIL: ${DJANGO_SUPERUSER_EMAIL}
         DJANGO_SUPERUSER_USERNAME: ${DJANGO_SUPERUSER_USERNAME}
+    restart: always
     volumes:
       - ./mysite:/usr/src/app
       - static_volume:/home/app/django/staticfiles
@@ -20,6 +21,7 @@ services:
   pgdb:
     image: postgres
     container_name: pgdb
+    restart: always
     volumes:
       - pgdbdata:/var/lib/postgresql/data/
     environment:
@@ -32,6 +34,7 @@ services:
   nginx-proxy:
     build: nginx
     container_name: nginx-proxy
+    restart: always
     volumes:
       - static_volume:/home/app/django/staticfiles
       - certs:/etc/nginx/certs
@@ -46,6 +49,7 @@ services:
 
   acme-companion:
     image: nginxproxy/acme-companion
+    restart: always
     env_file:
       - ./.env
     volumes:
