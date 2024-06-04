@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-23 14:06+0300\n"
+"POT-Creation-Date: 2024-05-29 20:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -205,4 +205,8 @@ msgstr "Home"
 
 #: theme/templates/base.html:80
 msgid "About"
+msgstr ""
+
+#: theme/templates/base.html:103
+msgid "Anonymous statistics are collected on the site"
 msgstr ""
