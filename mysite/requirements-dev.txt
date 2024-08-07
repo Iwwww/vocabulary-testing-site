@@ -1,4 +1,4 @@
-Django==5.0.6
+Django==5.0.8
 django-browser-reload==1.12.1
 django-tailwind==3.8.0
 django-rosetta==0.10.0
